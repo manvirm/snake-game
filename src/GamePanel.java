@@ -58,12 +58,50 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 	public void draw(Graphics g) {
 		
+		//set up grid for x and y axis which determine size of items
+		for(int i=0; i<SCREEN_HEIGHT/UNIT_SIZE; i++) {
+			//y axis(vertical lines)
+			g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_HEIGHT);
+			//x axis (horizontal lines)
+			g.drawLine(0, i*UNIT_SIZE, SCREEN_WIDTH, i*UNIT_SIZE);
+		}
+		//color apple
+		g.setColor(Color.red);
+		//create circle (apple)
+		g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+		
 	}
 	public void newApple() {
+		//have apple appear somewhere along x axis
+		appleX = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE))*UNIT_SIZE;
+		appleY = random.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE))*UNIT_SIZE;
 		
 	}
+	//movement for snake
 	public void move() {
-		
+		//iterate through body parts of snake
+		for(int i = bodyParts; i > 0; i--) {
+			//shifting coordinates by one spot
+			x[i] = x[i-1];
+			y[i] = y[i-1];
+			
+		}
+		//directions for up, down, left, right in that order
+		// change coordinates and break
+		switch(direction) {
+		case 'U':
+			y[0] = y[0] - UNIT_SIZE;
+			break;
+		case 'D':
+			y[0] = y[0] + UNIT_SIZE;
+			break;
+		case 'L':
+			x[0] = x[0] - UNIT_SIZE;
+			break;
+		case 'R':
+			x[0] = x[0] + UNIT_SIZE;
+			break;
+		}
 	}
 	//snake eats apples to score points
 	public void checkApple() {
